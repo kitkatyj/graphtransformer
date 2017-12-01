@@ -1,0 +1,432 @@
+html {
+    height:100%;
+    background-color: #ddd;
+    overflow:hidden;
+}
+body {
+    display:flex;
+    height:100%;
+    flex-flow: column;
+    margin:0;
+    box-sizing: border-box;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}
+#toolbar {
+    position:fixed;
+    font-size:2em;
+    z-index:1999;
+    color:rgba(0,0,0,0.5);
+    display: flex;
+    opacity:0.5;
+}
+#toolbar a {
+    padding:0.5em;
+    cursor:pointer;
+}
+#toolbar a:active {
+    color:rgba(0,0,0,1);
+}
+.full-page {
+    box-sizing: border-box;
+    display:none;
+    flex-flow:column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    text-align: center;
+    height:100vh; width: 100vw;
+    position:fixed;
+    background-color: rgba(0, 36, 68, 0.9);
+    z-index:2000;
+    color:white;
+    padding:0 2em;
+    transform:translateY(100vh);
+/*    filter:blur(8px);*/
+    opacity:0;
+    transition:0.5s transform, 0.5s filter, 0.5s opacity;
+}
+.full-page.opened {
+    transform:translateY(0);
+    opacity: 1;
+}
+.full-page a.close-button{
+    position:absolute;
+    top:0;right:0;
+    font-size:2em;
+    padding:0.5em;
+    cursor: pointer;
+}
+.full-page a.close-button:active {
+    color:lightgray;
+}
+.full-page h1 {
+    margin: 1em;
+}
+.full-page label {
+    display:flex;
+    width:100%;
+    text-align: left;
+    margin-bottom:1em;
+    cursor:pointer;
+    align-items: center;
+}
+.full-page label span.desc {
+    margin-left: 1em;
+    flex:1;
+}
+.full-page label input {
+    position:absolute;
+    opacity:0;
+}
+.full-page hr {
+    width:100%;
+    margin: 0 0 1em 0;
+    opacity:0.5;
+    border-style: solid;
+}
+span.checkbox {
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    position:relative;
+    transition:all 0.2s;
+}
+input[type=checkbox]:checked ~ .checkbox {
+  background-color: #2196F3;
+}
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkbox:after {
+    content: "";
+    display: none;
+    position:absolute;
+}
+
+/* Show the checkmark when checked */
+input[type=checkbox]:checked ~ .checkbox:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.normal-button {
+    background-color: #0074D9;
+    width:100%;
+    padding:0.5em;
+    border-radius: 0.5em;
+    cursor:pointer;
+    margin-bottom: 1em;
+}
+.normal-button:active {
+    background-color: #0086cc;
+}
+#reset-button {
+    background-color: #FF4136;
+}
+
+#main-icon {
+    width:160px;
+}
+
+#main {
+    background-color: white;
+    width:100%;
+    top:0;
+    position:sticky;
+    position:-webkit-sticky;
+    z-index: 999;
+}
+#menu {
+    overflow: hidden;
+    display:flex;
+    flex-flow: column;
+    flex:1;
+    position:relative;
+}
+#equation-list {
+    padding:0;margin:0;
+    list-style: none;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+li.equation-container {
+    text-align: center;
+    margin:0; padding:0;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition:0.5s opacity, 0.2s box-shadow;
+    -webkit-transition:0.5s opacity, 0.2s box-shadow;
+    -moz-transition:0.5s opacity, 0.2s box-shadow;
+    -o-transition:0.5s opacity, 0.2s box-shadow;
+    border-bottom: 1px solid #ddd;
+}
+li.equation-container[draggable=true]{
+    cursor:grabbing;
+    position:relative;
+    z-index:9999;
+    box-shadow: 4px 4px 20px rgba(0,0,0,0.4);
+}
+
+li.new-equation {
+    max-height:0;
+    transition: 0.5s max-height;
+    -webkit-transition: 0.5s max-height;
+    -moz-transition: 0.5s max-height;
+    -o-transition: 0.5s max-height;
+}
+
+div.equation-string {
+    max-height: 2em;
+    transition:0.5s max-height,0.5s padding, 0.5s border-top-width;
+    -webkit-transition:0.5s max-height,0.5s padding, 0.5s border-top-width;
+    -moz-transition:0.5s max-height,0.5s padding, 0.5s border-top-width;
+    -o-transition:0.5s max-height,0.5s padding, 0.5s border-top-width;
+    background-color: #fafafa;
+    font-size: 1.6em;
+    padding:0.3em;
+    position: sticky;
+    position: -webkit-sticky;
+    top:0;
+    z-index:9;
+    overflow-y: hidden;
+    border-top: 0.2em solid gray;
+}
+div.equation-string:active {
+    background-color: lightgray;
+}
+
+#addButton {
+    background-color: #0074D9;
+    color:white;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 0.5em;
+    text-align: center;
+    cursor: pointer;
+    position:absolute;
+    bottom:0;
+    width:100%;
+    box-sizing: border-box;
+    z-index:998;
+}
+#addButton::after {
+    content: 'Add Equation (+)';
+}
+#addButton:active {
+    background-color: #0086cc;
+}
+#addButton.disabled {
+    background-color: gray;
+    color:lightgray;
+    cursor:not-allowed;
+}
+#addButton.disabled:active {
+    background-color: #FF4136;
+}
+#addButton.disabled:active::after {
+    content: 'Max no. of equations reached';
+}
+
+div.equation-detail {
+    font-size: 1.5em;
+    overflow-y: hidden;
+    max-height: 0;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+}
+div.equation-detail .config {
+    display:flex;
+    background-color: #bedbea;
+}
+div.equation-detail .config a.selected {
+    background-color: #cef;
+}
+div.equation-detail .config a {
+    text-align: center;
+    flex:1;
+    display:inline-block;
+    font-weight: bold;
+    padding:0.5em;
+}
+div.equation-detail .config a:active {
+    background-color: white;
+    cursor: pointer;
+}
+div.equation-detail .config a.delete {
+}
+div.equation-detail .config a.delete:active {
+    background-color: #a54c4c;
+}
+div.equation-detail div.detailCoeff {
+    padding:0.1px 0;
+    background-color: #cef;
+}
+div.equation-detail .row {
+    display: flex;
+    align-items: center;
+    margin:0.5em;
+}
+div.equation-detail .row p {
+    margin:0;
+    text-align: left;
+    width:1em;
+    font-weight: bold;
+    color:rgba(0,0,0,0.5);
+}
+div.equation-detail div.detailColor {
+    display:flex;
+    flex-flow: wrap;
+    background-color: #cef;
+}
+div.equation-detail div.detailColor div.color-box {
+    height:2em;
+    width:20%;
+    box-sizing: border-box;
+}
+div.equation-detail div.detailColor div.color-box.selected {
+    border:0.2em solid rgb(255, 255, 153);
+}
+div.equation-detail .row input {
+    flex:1;
+    margin:0;
+}
+.slider {
+    -webkit-appearance: none;
+    background-color:rgba(0,0,0,0.5);
+    outline: none;
+    opacity: 0.7;
+    height: 4em;
+    -webkit-transition: .2s;
+    -moz-transition: .2s;
+    -o-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:active {
+    opacity:1;
+}
+
+.slider::-moz-range-track {
+    opacity: 0;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 4em;
+    height: 4em;
+    background: white;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 4em;
+    height: 4em;
+    background: white;
+    cursor: pointer;
+}
+
+.hide {
+    display:none !important;
+}
+label > * {
+    pointer-events: none;
+}
+
+@media (min-width:540px){
+    body {
+        display:block;
+    }
+    .full-page {
+/*        display:flex;*/
+/*        transform: translateY(0);*/
+/*        opacity:1;*/
+        width:auto; height:auto;
+        min-width: 320px;
+        max-width: 800px;
+        top:50%; left:50%;
+        box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+        transform: translate(-50%,100vh);
+    }
+    .full-page.opened {
+        transform:translate(-50%,-50%);
+    }
+    #main + #toolbar {
+        opacity:0;
+        left:0; top:0;
+        transition:0.2s opacity;
+    }
+    #main:hover + #toolbar {
+        opacity:0.5;
+    }
+    #toolbar:hover {
+        opacity:0.5 !important;
+    }
+    #main {
+        width:auto;
+        height:100vh;
+    }
+    #menu {
+        float:right;
+        width:300px;
+        height:100vh;
+    }
+    #addButton {
+        right:0;
+        width:300px;
+    }
+    #equation-container:hover {
+        position:relative;
+        z-index:10;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+    }
+
+    div.equation-string:hover {
+        background-color: white;
+    }
+
+    #addButton:hover {
+        background-color: #1996d6;
+    }
+    #addButton.disabled:hover {
+        background-color: gray;
+    }
+    #addButton.disabled:active {
+        background-color: #FF4136;
+    }
+
+    div.equation-detail .config a:hover {
+        background-color: #e2f5ff;
+        cursor: pointer;
+    }
+
+    div.equation-detail .config a.selected:hover {
+        background-color: #cef;
+        cursor:default;
+    }
+    div.equation-detail .config a.delete:hover {
+        background-color: #ce6d6d;
+        color:white;
+    }
+
+    div.equation-detail div.detailColor div.color-box:hover {
+        border:0.1em solid rgba(255, 255, 153,1);
+    }
+}

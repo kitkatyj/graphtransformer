@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/main.css">
+<script src="js/lib/fastclick.js"></script>
+<script src="js/lib/Sortable.min.js"></script>
+<script src="js/main.js"></script>
+<title>Graph Transformer</title>
+</head>
+<body>
+    <section class="full-page" id="about-page">
+        <a class="close-button" onclick="closeCurrentPage(this);"><i class="fa fa-times" aria-hidden="true"></i></a>
+        <h1>Graph Transformer v0.1</h1>
+        <img id="main-icon" src="img/main-icon.png">
+        <p>A neat little interactive tool that helps users understand the relations between an equation and the curve it forms on a graph.</p>
+        <p>Copyright &copy; KatYJ, 2017.</p>
+    </section>
+    <section class="full-page" id="settings-page">
+        <a class="close-button" onclick="closeCurrentPage(this);"><i class="fa fa-times" aria-hidden="true"></i></a>
+        <h1>Settings</h1>
+        <hr>
+        <a class="normal-button" onclick="resetEquations(this)">Clear Equations</a>
+        <a class="normal-button" onclick="resetSettings()">Reset Settings</a>
+        <a id="reset-button" class="normal-button" onclick="resetAll(this)">Reset All</a>
+    </section>
+    <canvas id="main"></canvas>
+    <section id="toolbar">
+        <a id="about" onclick="openAboutPage()"><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+        <a id="settings" onclick="openSettingsPage()"><i class="fa fa-cog" aria-hidden="true"></i></a>
+    </section>
+    <section id="menu">
+        <ul id="equation-list">
+            
+        </ul>
+        <a id="addButton" onclick="addNewEquation(this)"></a>
+    </section>
+</body>
+</html>
