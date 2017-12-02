@@ -99,8 +99,9 @@ window.oncontextmenu = function(e){
 }
 
 window.ontouchmove = function(e){
-    if(e.target === canvas || e.target === addButton)
+    if(e.target === canvas || e.target === addButton || e.target.className.indexOf("full-page") !== -1 || e.target.parentElement.className.indexOf("full-page") !== -1){
         e.preventDefault();
+    }
 }
 
 function openAboutPage(){    
@@ -422,7 +423,7 @@ function formatEquation(e){
     
     equationString = equationString.replace("0x<sup>2</sup>","");
     equationString = equationString.replace(" 1x<sup>2</sup>"," x<sup>2</sup>");
-    equationString = equationString.replace(" -1x<sup>2</sup>"," x<sup>2</sup>");
+    equationString = equationString.replace(" -1x<sup>2</sup>"," -x<sup>2</sup>");
     equationString = equationString.replace("+0x","");
     equationString = equationString.replace("+ 1x","+ x");
     equationString = equationString.replace("- 1x","- x");
